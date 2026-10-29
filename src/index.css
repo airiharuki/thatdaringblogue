@@ -91,6 +91,17 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+.morrow-masthead-top {
+  display: contents;
+}
+
+.morrow-nav-container {
+  flex: 1 0 0px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
 .morrow-masthead-brand-wrap {
   display: flex;
   align-items: baseline;
@@ -1251,20 +1262,136 @@ body {
     padding: 0 16px;
   }
 
+  /* Full-bleed sticky masthead on mobile */
   .morrow-masthead {
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin: 0 -16px 8px -16px;
+    width: calc(100% + 32px);
+    padding: 14px 16px 8px 16px;
+    border-bottom: 1px solid var(--border);
+    transition: background-color 0.28s ease, border-color 0.28s ease;
+  }
+
+  .morrow-masthead-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .morrow-brand {
+    font-size: 21px;
+  }
+
+  .morrow-brand-badge {
+    font-size: 9px;
+    padding: 2px 5px;
+  }
+
+  .morrow-theme-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  /* Smooth scrollable tab bar container with edge masks */
+  .morrow-nav-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 10px, black calc(100% - 10px), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10px, black calc(100% - 10px), transparent);
   }
 
   .morrow-masthead-nav {
-    order: 3;
     width: 100%;
-    padding-bottom: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 2px 8px 6px 8px;
+  }
+
+  .morrow-masthead-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .morrow-nav-tab {
+    flex-shrink: 0;
+    font-size: 13px;
+    padding: 7px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--muted);
+    white-space: nowrap;
+    transition: all 0.18s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    touch-action: manipulation;
+  }
+
+  .morrow-nav-tab:hover {
+    color: var(--text);
+    border-color: var(--text);
+  }
+
+  .morrow-nav-tab.is-active {
+    background-color: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+    font-weight: 500;
+  }
+
+  .morrow-nav-tab.is-active .morrow-nav-tab-indicator {
+    display: none;
+  }
+
+  /* Smooth horizontal scroll for category filter pills on mobile */
+  .morrow-filter-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    padding: 2px 4px 6px 4px;
+    margin-bottom: 20px;
+    mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 8px), transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8px, black calc(100% - 8px), transparent);
+  }
+
+  .morrow-filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .morrow-filter-pill {
+    flex-shrink: 0;
+    white-space: nowrap;
+    min-height: 34px;
+  }
+
+  .morrow-tab-heading {
+    padding: 32px 0 20px 0;
   }
 
   .morrow-headline {
-    font-size: 34px;
+    font-size: 32px;
     letter-spacing: -1.2px;
   }
 
@@ -1304,8 +1431,8 @@ body {
   .morrow-modal-header,
   .morrow-modal-body,
   .morrow-modal-footer {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 18px;
+    padding-right: 18px;
   }
 
   .morrow-modal-title {
