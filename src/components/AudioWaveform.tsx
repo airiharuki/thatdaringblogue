@@ -17,6 +17,7 @@ export interface AudioWaveformProps {
   barWidth?: number;
   barGap?: number;
   title?: string;
+  trackId?: string;
   style?: React.CSSProperties;
 }
 
@@ -204,6 +205,7 @@ export const AudioWaveform: React.FC<AudioWaveformProps> = ({
   barWidth = 3,
   barGap = 2,
   title = '',
+  trackId,
   style,
 }) => {
   const normalizedUrl = useMemo(() => normalizeAudioUrl(audioUrl), [audioUrl]);
@@ -224,6 +226,46 @@ export const AudioWaveform: React.FC<AudioWaveformProps> = ({
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
+  const lastEmitTimeRef = useRef(0);
+
+  const emitPlaybackState = useCallback(
+    (playing: boolean, time = currentTime, dur = duration) => {
+      window.dispatchEvent(
+        new CustomEvent('morrow:nowplaying', {
+          detail: {
+            title: title || 'Demo Track',
+            audioUrl,
+            isPlaying: playing,
+            currentTime: time,
+            duration: dur,
+          },
+        })
+      );
+    },
+    [audioUrl, currentTime, duration, title]
+  );
+
+  useEffect(() => {
+    const handleControl = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (!detail || detail.audioUrl !== audioUrl) return;
+      const audio = audioRef.current;
+      if (!audio) return;
+      if (detail.action === 'toggle') {
+        if (audio.paused) {
+          pauseOtherPlayers(audio);
+          audio.play().catch(() => {});
+        } else {
+          audio.pause();
+        }
+      } else if (detail.action === 'seek' && typeof detail.time === 'number') {
+        audio.currentTime = detail.time;
+        setCurrentTime(detail.time);
+      }
+    };
+    window.addEventListener('morrow:miniplayer-control', handleControl);
+    return () => window.removeEventListener('morrow:miniplayer-control', handleControl);
+  }, [audioUrl]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -452,6 +494,11 @@ export const AudioWaveform: React.FC<AudioWaveformProps> = ({
         onTimeUpdate={(e) => {
           const t = e.currentTarget.currentTime || 0;
           startTransition(() => setCurrentTime(t));
+          const now = performance.now();
+          if (now - lastEmitTimeRef.current > 300) {
+            lastEmitTimeRef.current = now;
+            emitPlaybackState(true, t, e.currentTarget.duration || duration);
+          }
         }}
         onLoadedMetadata={(e) => {
           const d = e.currentTarget.duration || 0;
@@ -460,8 +507,12 @@ export const AudioWaveform: React.FC<AudioWaveformProps> = ({
         onPlay={() => {
           if (audioRef.current) pauseOtherPlayers(audioRef.current);
           startTransition(() => setIsPlaying(true));
+          emitPlaybackState(true);
         }}
-        onPause={() => startTransition(() => setIsPlaying(false))}
+        onPause={() => {
+          startTransition(() => setIsPlaying(false));
+          emitPlaybackState(false);
+        }}
         onCanPlay={() => startTransition(() => setPlaybackError(''))}
         onEnded={() => {
           if (audioRef.current) audioRef.current.currentTime = 0;
@@ -469,6 +520,7 @@ export const AudioWaveform: React.FC<AudioWaveformProps> = ({
             setIsPlaying(false);
             setCurrentTime(0);
           });
+          emitPlaybackState(false, 0);
         }}
         onError={() => {
           if (!triedFallback && normalizedUrl !== audioUrl) {
