@@ -1,0 +1,2 @@
+# Bun lockfile must stay LF regardless of platform autocrlf
+bun.lock text eol=lf
