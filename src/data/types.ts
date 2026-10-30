@@ -4,7 +4,7 @@ export interface TrackItem {
   title: string;
   details: string;
   audioUrl: string;
-  bpm?: number;
+  bpm?: number | string;
   key?: string;
   stems?: string[];
   notes?: string;

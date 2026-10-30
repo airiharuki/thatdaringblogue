@@ -3,10 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Morrow — Independent sound</title>
+    <title>that daring blogue — Sound, systems &amp; demo notes</title>
     <meta
       name="description"
-      content="Warm textures, quiet rhythms, and independent electronic music. Explore the Morrow music portfolio and digital release store."
+      content="A technical journal and audio sketchbook. Explore The Demo Room, electronic music experiments, creative projects and engineering notes."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,400..700;1,14..32,400..700&family=JetBrains+Mono:wght@400;500&display=swap"
     />
     <link
       href="/icons/default-favicon-light.v1.png"
@@ -19,21 +25,45 @@
       media="(prefers-color-scheme: dark)"
     />
     <link rel="apple-touch-icon" href="/icons/default-touch-icon.v3.png" />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://thatdaringblogue.me/" />
-    <meta property="og:title" content="Morrow — Independent sound" />
+    <meta property="og:title" content="that daring blogue — Sound, systems &amp; demo notes" />
     <meta
       property="og:description"
-      content="Warm textures, quiet rhythms, and independent electronic music. Explore the Morrow music portfolio and digital release store."
+      content="A technical journal and audio sketchbook. Explore The Demo Room, electronic music experiments, creative projects and engineering notes."
     />
-    <!-- X -->
+    <meta property="og:image" content="https://thatdaringblogue.me/og-image.png" />
+
+    <!-- X / Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Morrow — Independent sound" />
+    <meta name="twitter:title" content="that daring blogue — Sound, systems &amp; demo notes" />
     <meta
       name="twitter:description"
-      content="Warm textures, quiet rhythms, and independent electronic music. Explore the Morrow music portfolio and digital release store."
+      content="A technical journal and audio sketchbook. Explore The Demo Room, electronic music experiments, creative projects and engineering notes."
     />
+    <meta name="twitter:image" content="https://thatdaringblogue.me/og-image.png" />
+
+    <!-- GitHub Pages Single Page App routing restoration -->
+    <script type="text/javascript">
+      (function (l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      })(window.location);
+    </script>
   </head>
   <body>
     <div id="root"></div>
