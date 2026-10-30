@@ -3,3 +3,12 @@ dist
 dist-ssr
 *.local
 .DS_Store
+
+# npm artifacts (this project uses Bun)
+package-lock.json
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
+
+# build cache
+tsconfig.tsbuildinfo
